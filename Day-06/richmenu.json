@@ -17,7 +17,7 @@
       "action": {
         "type": "postback",
         "text": "查看訂單",
-        "data": "action=getOrders"
+        "data": "flow=general&action=getOrders"
       }
     },
     {
@@ -42,7 +42,7 @@
       "action": {
         "type": "postback",
         "text": "會員資料",
-        "data": "action=getMemberInfo"
+        "data": "flow=general&action=getMemberInfo"
       }
     },
     {
@@ -55,7 +55,7 @@
       "action": {
         "type": "postback",
         "text": "商品資訊",
-        "data": "action=getProducts"
+        "data": "flow=general&action=getProducts"
       }
     }
   ]
