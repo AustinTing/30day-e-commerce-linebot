@@ -1,5 +1,5 @@
 # nodemon config
-nodemon.js
+nodemon.json
 # sessions
 sessions
 # Logs
