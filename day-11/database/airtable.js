@@ -10,7 +10,7 @@ const requiredParam = param => {
   throw requiredParamError
 }
 
-module.exports.get = async ({
+module.exports.getRecords = async ({
   table = requiredParam('table'),
   pageSize,
   offset,
@@ -26,6 +26,20 @@ module.exports.get = async ({
       offset
     },
     url: `https://api.airtable.com/v0/${process.env.AIRTABLE_API_ID}/${table}`,
+    json: true
+  }
+  return rp(option)
+}
+
+module.exports.getRecord = async ({
+  table = requiredParam('table'),
+  id = requiredParam('id')
+} = {}) => {
+  const option = {
+    headers: {
+      'Authorization': 'Bearer ' + process.env.AIRTABLE_API_KEY
+    },
+    url: `https://api.airtable.com/v0/${process.env.AIRTABLE_API_ID}/${table}/${id}`,
     json: true
   }
   return rp(option)

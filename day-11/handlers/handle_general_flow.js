@@ -15,20 +15,20 @@ const toColumn = product => {
   return {
     thumbnailImageUrl: product.imgUrl,
     imageBackgroundColor: '#FFFFFF',
-    title: product.id + '. ' + product.name, // product.id just for teaching
+    title: product.name,
     text: product.detail,
     defaultAction: {
       type: 'postback',
       label: '我想要買！',
       text: '我想要買！',
-      data: `flow=shoping&action=buy&productID=${product.id}`
+      data: `flow=shopping&action=buy&productID=${product.id}`
     },
     actions: [
       {
         type: 'postback',
         label: '我想要買！',
         text: '我想要買！',
-        data: `flow=shoping&action=buy&productID=${product.id}`
+        data: `flow=shopping&action=buy&productID=${product.id}`
       }
     ]
   }
@@ -67,7 +67,6 @@ const toColumns = ({
 const handleGetProducts = async context => {
   const {offset} = context.event.postback.query
   const result = await Product.readProducts({offset})
-  console.log(result.offset)
   let carouselProducts = {
     type: 'template',
     altText: '好吃好吃嚼嚼嚼',
