@@ -3,8 +3,8 @@ const _ = require('lodash')
 
 const toProduct = record => {
   const {fields} = record
-  const {name, detail, price, images, is_show} = fields
-  if (!(name && detail && price && images && images[0].url)) return console.log(`Some data in product id: ${id} is not correct`)
+  const {id, name, detail, price, images, is_show} = fields
+  if (!(id, name && detail && price && images && images[0].url)) return console.log(`Some data in product id: ${id} is not correct`)
   return { id: record.id, name, detail, price, imgUrl: images[0].url, isShow: is_show } // Fix id to id: record.id
 }
 
