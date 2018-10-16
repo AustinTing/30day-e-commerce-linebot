@@ -34,7 +34,11 @@ const isShoppingFlow = context => {
 }
 
 const isMemberFlow = context => {
+  const {event} = context
   if (_.startsWith(context.state.flow, 'member')) return true
+  if (event.isPostback) {
+    if (event.postback.query && event.postback.query.flow === 'member') return true
+  }
   return false
 }
 

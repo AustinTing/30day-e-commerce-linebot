@@ -72,10 +72,10 @@ const isWaitConfirm = context => {
   return false
 }
 
-const handleWaitConfirm = context => {
+const handleWaitConfirm = async context => {
   const {event} = context
   if (event.isPostback && event.postback.query && event.postback.query.action === 'confirm') {
-    context.replyText('購買資訊已確認，接下來...')
+    await context.replyText('購買資訊已確認，接下來...')
     if (!context.state.member) return handleMemberFlow(context)
     return // TODO: handlePayingFlow
   }
