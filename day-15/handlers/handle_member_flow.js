@@ -38,7 +38,7 @@ const handleWaitInputAddress = context => {
   const {event} = context
   if (!event.isText) return console.log(`Event is not text type. Evenet: ${event.rawEvent}`)
   context.state.member.address = event.text
-  context.state.flow = 'member_wait_confirm'
+  context.state.flow = null
   context.reply([
     {
       type: 'template',
@@ -56,25 +56,29 @@ const handleWaitInputAddress = context => {
           {
             type: 'postback',
             label: '沒錯！',
-            text: '沒錯！',
+            displayText: '沒錯！',
             data: `flow=member&action=confirm`
           }, {
             type: 'postback',
             label: '不對唷～給我重來！',
-            text: '不對唷～給我重來！',
+            displayText: '不對唷～給我重來！',
             data: `flow=member&action=tryAgain`
           },
           {
             type: 'postback',
             label: '算了～下次再買吧～',
-            text: '算了～下次再買吧～',
+            displayText: '算了～下次再買吧～',
             data: `flow=member&action=cancelOrder`
           }
         ]
       }}])
 }
 
-const isWaitConfirm = context => context.state.flow === 'member_wait_confirm'
+const isWaitConfirm = context => {
+  const {event} = context
+  if (event.isPostback && event.postback.query && event.postback.query.flow === 'member') return true
+  return false
+}
 
 const isConfirm = context => {
   const {event} = context
@@ -105,6 +109,7 @@ const isCancelOrder = context => {
 const handleCancelOrder = context => {
   context.state.flow = null
   context.state.order = null
+  context.state.member = null
   context.replyText('嗚嗚～好的')
 }
 
@@ -115,9 +120,9 @@ const handleWaitConfirm = new LineHandler()
 
 module.exports = new LineHandler()
   .on(isNewMember, handleNewMember)
+  .on(isWaitConfirm, handleWaitConfirm)
   .on(isWaitInputName, handleWaitInputName)
   .on(isWaitInputPhone, handleWaitInputPhone)
   .on(isWaitInputAddress, handleWaitInputAddress)
-  .on(isWaitConfirm, handleWaitConfirm)
   .onEvent(context => console.log('Uncaught event:', context.event.rawEvent))
   .build()
