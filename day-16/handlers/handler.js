@@ -42,11 +42,25 @@ const isMemberFlow = context => {
   return false
 }
 
+const isReset = context => {
+  const {event} = context
+  if (event.isText && event.text === 'Reset') return true
+  return false
+}
+
+const handleReset = context => {
+  context.state.flow = null
+  context.state.order = null
+  context.state.member = null
+  context.replyText('已重置')
+}
+
 module.exports = new LineHandler()
   .on(init, context => console.log(`How do you get here!?`))
   .on(isGeneralFlow, handleGeneralFlow)
   .on(isShoppingFlow, handleShoppingFlow)
   .on(isMemberFlow, handleMemberFlow)
+  .on(isReset, handleReset)
   .onEvent(context => {
     if (context.event.isText) return
     console.log('Uncaught event:', context.event.rawEvent)
