@@ -1,10 +1,10 @@
 const airtable = require('./airtable.js')
 const _ = require('lodash')
-
+/* eslint-disable camelcase */
 const toProduct = record => {
   const {fields} = record
   const {name, detail, price, images, is_show} = fields
-  if (!(name && detail && price && images && images[0].url)) return console.log(`Some data in product id: ${id} is not correct`)
+  if (!(name && detail && price && images && images[0].url)) return console.log(`Some data in product id: ${record.id} is not correct`)
   return { id: record.id, name, detail, price, imgUrl: images[0].url, isShow: is_show } // Fix id to id: record.id
 }
 
