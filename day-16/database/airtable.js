@@ -14,7 +14,8 @@ module.exports.getRecords = async ({
   table = requiredParam('table'),
   pageSize,
   offset,
-  sort
+  sort,
+  filterByFormula
 } = {}) => {
   const option = {
     headers: {
@@ -23,7 +24,8 @@ module.exports.getRecords = async ({
     qs: {
       pageSize,
       sort,
-      offset
+      offset,
+      filterByFormula
     },
     url: `https://api.airtable.com/v0/${process.env.AIRTABLE_API_ID}/${table}`,
     json: true
@@ -40,6 +42,41 @@ module.exports.getRecord = async ({
       'Authorization': 'Bearer ' + process.env.AIRTABLE_API_KEY
     },
     url: `https://api.airtable.com/v0/${process.env.AIRTABLE_API_ID}/${table}/${id}`,
+    json: true
+  }
+  return rp(option)
+}
+
+module.exports.createRecord = async ({
+  table = requiredParam('table'),
+  data = requiredParam('data')
+} = {}) => {
+  const option = {
+    method: 'POST',
+    headers: {
+      Authorization: 'Bearer ' + process.env.AIRTABLE_API_KEY,
+      'Content-type': 'application/json'
+    },
+    url: `https://api.airtable.com/v0/${process.env.AIRTABLE_API_ID}/${table}`,
+    body: data,
+    json: true
+  }
+  return rp(option)
+}
+
+module.exports.updateRecord = async ({
+  table = requiredParam('table'),
+  id = requiredParam('id'),
+  data = requiredParam('data')
+} = {}) => {
+  const option = {
+    method: 'PATCH',
+    headers: {
+      Authorization: 'Bearer ' + process.env.AIRTABLE_API_KEY,
+      'Content-type': 'application/json'
+    },
+    url: `https://api.airtable.com/v0/${process.env.AIRTABLE_API_ID}/${table}/${id}`,
+    body: data,
     json: true
   }
   return rp(option)
