@@ -1,6 +1,7 @@
 
 const airtable = require('./airtable.js')
 const _ = require('lodash')
+/* eslint-disable camelcase */
 
 const requiredParam = param => {
   const requiredParamError = new Error(`Required parameter, "${param}" is missing.`)
