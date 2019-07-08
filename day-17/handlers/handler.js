@@ -6,14 +6,27 @@ const handleMemberFlow = require('./handle_member_flow')
 const _ = require('lodash')
 
 const init = context => {
-  const { event } = context
   console.log(`\nstate: ${JSON.stringify(context.state)}`)
+  const { event } = context
   if (event.isPostback) {
     console.log(`postback: ${JSON.stringify(event.postback)}`)
     event.postback['query'] = queryString.parse(event.postback.data)
     console.log('postback.query:', event.postback.query)
   }
   return false
+}
+
+const isReset = context => {
+  const { event } = context
+  if (event.isText && event.text === 'Reset') return true
+  return false
+}
+
+const handleReset = context => {
+  context.state.flow = null
+  context.state.order = null
+  context.state.member = null
+  context.replyText('已重置')
 }
 
 const isGeneralFlow = context => {
@@ -42,25 +55,12 @@ const isMemberFlow = context => {
   return false
 }
 
-const isReset = context => {
-  const { event } = context
-  if (event.isText && event.text === 'Reset') return true
-  return false
-}
-
-const handleReset = context => {
-  context.state.flow = null
-  context.state.order = null
-  context.state.member = null
-  context.replyText('已重置')
-}
-
 module.exports = new LineHandler()
   .on(init, context => console.log(`How do you get here!?`))
+  .on(isReset, handleReset)
   .on(isGeneralFlow, handleGeneralFlow)
   .on(isShoppingFlow, handleShoppingFlow)
   .on(isMemberFlow, handleMemberFlow)
-  .on(isReset, handleReset)
   .onEvent(context => {
     if (context.event.isText) return
     console.log('Uncaught event:', context.event.rawEvent)

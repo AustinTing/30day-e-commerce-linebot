@@ -43,7 +43,7 @@ module.exports.createMember = async ({
   console.log(filterByFormula)
   const memberResult = await airtable.getRecords({ table: 'member', filterByFormula })
   const members = _.map(memberResult.records, toMember)
-  if (members.length > 1) return console.error(`發現雙胞胎啦! id: ${id}, lineID: ${lineID}, records: ${JSON.stringify(members)}`)
+  if (members.length > 1) return console.log(`發現雙胞胎啦! id: ${id}, lineID: ${lineID}, records: ${JSON.stringify(members)}`)
   if (members.length === 1) return updateMember({ id, name, phone, address })
   const newMember = await airtable.createRecord({ table: 'member', data: { fields: { line_id: lineID, name, phone, address } } })
   newMember.fields.id = newMember.id
