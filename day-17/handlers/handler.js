@@ -6,7 +6,7 @@ const handleMemberFlow = require('./handle_member_flow')
 const _ = require('lodash')
 
 const init = context => {
-  const {event} = context
+  const { event } = context
   console.log(`\nstate: ${JSON.stringify(context.state)}`)
   if (event.isPostback) {
     console.log(`postback: ${JSON.stringify(event.postback)}`)
@@ -17,7 +17,7 @@ const init = context => {
 }
 
 const isGeneralFlow = context => {
-  const {event} = context
+  const { event } = context
   if (event.isPostback) {
     if (event.postback.query && event.postback.query.flow === 'general') return true
   }
@@ -25,7 +25,7 @@ const isGeneralFlow = context => {
 }
 
 const isShoppingFlow = context => {
-  const {event} = context
+  const { event } = context
   if (event.isPostback) {
     if (event.postback.query && event.postback.query.flow === 'shopping') return true
   }
@@ -34,7 +34,7 @@ const isShoppingFlow = context => {
 }
 
 const isMemberFlow = context => {
-  const {event} = context
+  const { event } = context
   if (_.startsWith(context.state.flow, 'member')) return true
   if (event.isPostback) {
     if (event.postback.query && event.postback.query.flow === 'member') return true
@@ -43,7 +43,7 @@ const isMemberFlow = context => {
 }
 
 const isReset = context => {
-  const {event} = context
+  const { event } = context
   if (event.isText && event.text === 'Reset') return true
   return false
 }

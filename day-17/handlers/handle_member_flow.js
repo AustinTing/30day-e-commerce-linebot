@@ -14,7 +14,7 @@ const handleNewMember = async context => {
 const isWaitInputName = context => context.state.flow === 'member_wait_input_name'
 
 const handleWaitInputName = async context => {
-  const {event} = context
+  const { event } = context
   if (!event.isText) return console.log(`Event is not text type. Evenet: ${event.rawEvent}`)
   context.state.member.name = event.text
   context.state.flow = 'member_wait_input_phone'
@@ -25,7 +25,7 @@ const handleWaitInputName = async context => {
 const isWaitInputPhone = context => context.state.flow === 'member_wait_input_phone'
 
 const handleWaitInputPhone = async context => {
-  const {event} = context
+  const { event } = context
   if (!event.isText) return console.log(`Event is not text type. Evenet: ${event.rawEvent}`)
   context.state.member.phone = event.text
   context.state.flow = 'member_wait_input_address'
@@ -36,7 +36,7 @@ const handleWaitInputPhone = async context => {
 const isWaitInputAddress = context => context.state.flow === 'member_wait_input_address'
 
 const handleWaitInputAddress = context => {
-  const {event} = context
+  const { event } = context
   if (!event.isText) return console.log(`Event is not text type. Evenet: ${event.rawEvent}`)
   context.state.member.address = event.text
   context.state.flow = null
@@ -72,17 +72,17 @@ const handleWaitInputAddress = context => {
             data: `flow=member&action=cancelOrder`
           }
         ]
-      }}])
+      } }])
 }
 
 const isWaitConfirm = context => {
-  const {event} = context
+  const { event } = context
   if (event.isPostback && event.postback.query && event.postback.query.flow === 'member') return true
   return false
 }
 
 const isConfirm = context => {
-  const {event} = context
+  const { event } = context
   return event.isPostback && event.postback.query && event.postback.query.action === 'confirm'
 }
 
@@ -99,7 +99,7 @@ const handleConfirm = async context => {
 }
 
 const isTryAgain = context => {
-  const {event} = context
+  const { event } = context
   return event.isPostback && event.postback.query && event.postback.query.action === 'tryAgain'
 }
 
@@ -109,7 +109,7 @@ const handleTryAgain = context => {
 }
 
 const isCancelOrder = context => {
-  const {event} = context
+  const { event } = context
   return event.isPostback && event.postback.query && event.postback.query.action === 'cancelOrder'
 }
 
