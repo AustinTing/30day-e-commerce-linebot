@@ -6,33 +6,44 @@ const handleMemberFlow = require('./handle_member_flow')
 const _ = require('lodash')
 
 const init = context => {
-  console.log(`\nstate: ${JSON.stringify(context.state)}`)
   const { event } = context
+  console.log(`\n`)
+  if (event.isText) console.log(`user input: ${event.text}`)
   if (event.isPostback) {
-    console.log(`postback: ${JSON.stringify(event.postback)}`)
+    console.log(`user postback: ${JSON.stringify(event.postback)}`)
     event.postback['query'] = queryString.parse(event.postback.data)
     console.log('postback.query:', event.postback.query)
   }
+  console.log(`state: ${JSON.stringify(context.state)}`)
   return false
 }
 
 const isReset = context => {
   const { event } = context
-  if (event.isText && event.text === 'Reset') return true
+  if (event.isText && event.text === 'Reset') {
+    console.log(`handler, isReset`)
+    return true
+  }
   return false
 }
 
 const handleReset = context => {
-  context.state.flow = null
-  context.state.order = null
-  context.state.member = null
+  delete context.state.flow
+  delete context.state.order
+  delete context.state.member
+  console.log(`handler, handleReset: reset state`)
   context.replyText('已重置')
+  console.log(`reply 已重置`)
+  console.log(`state: `, context.state)
 }
 
 const isGeneralFlow = context => {
   const { event } = context
   if (event.isPostback) {
-    if (event.postback.query && event.postback.query.flow === 'general') return true
+    if (event.postback.query && event.postback.query.flow === 'general') {
+      console.log(`handler, isGeneralFlow`)
+      return true
+    }
   }
   return false
 }
@@ -40,23 +51,36 @@ const isGeneralFlow = context => {
 const isShoppingFlow = context => {
   const { event } = context
   if (event.isPostback) {
-    if (event.postback.query && event.postback.query.flow === 'shopping') return true
+    if (event.postback.query && event.postback.query.flow === 'shopping') {
+      console.log(`handler, isShoppingFlow`)
+      return true
+    }
   }
-  if (_.startsWith(context.state.flow, 'shopping')) return true
+  if (_.startsWith(context.state.flow, 'shopping')) {
+    console.log(`handler, isShoppingFlow`)
+    return true
+  }
   return false
 }
 
 const isMemberFlow = context => {
   const { event } = context
-  if (_.startsWith(context.state.flow, 'member')) return true
+  if (_.startsWith(context.state.flow, 'member')) {
+    console.log(`handler, isMemberFlow`)
+    return true
+  }
   if (event.isPostback) {
-    if (event.postback.query && event.postback.query.flow === 'member') return true
+    if (event.postback.query && event.postback.query.flow === 'member') {
+      console.log(`handler, isMemberFlow`)
+      return true
+    }
   }
   return false
 }
 
 module.exports = new LineHandler()
   .on(init, context => console.log(`How do you get here!?`))
+  // TODO: move here
   .on(isReset, handleReset)
   .on(isGeneralFlow, handleGeneralFlow)
   .on(isShoppingFlow, handleShoppingFlow)
