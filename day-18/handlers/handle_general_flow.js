@@ -65,8 +65,8 @@ const toColumns = ({
 }
 
 const handleGetProducts = async context => {
-  const {offset} = context.event.postback.query
-  const result = await Product.readProducts({offset})
+  const { offset } = context.event.postback.query
+  const result = await Product.readProducts({ offset })
   let carouselProducts = {
     type: 'template',
     altText: '好吃好吃嚼嚼嚼',
@@ -74,25 +74,25 @@ const handleGetProducts = async context => {
     imageSize: 'cover',
     template: {
       type: 'carousel',
-      columns: toColumns({products: result.products, offset: result.offset})
-    }}
+      columns: toColumns({ products: result.products, offset: result.offset })
+    } }
   context.reply([carouselProducts])
 }
 
 const isGetProducts = context => {
-  const {event} = context
+  const { event } = context
   if (event.postback.query.action && event.postback.query.action === 'getProducts') return true
   return false
 }
 
 const isGetMemberInfo = context => {
-  const {event} = context
+  const { event } = context
   if (event.postback.query.action && event.postback.query.action === 'getMemberInfo') return true
   return false
 }
 
 const isGetOrders = context => {
-  const {event} = context
+  const { event } = context
   if (event.postback.query.action && event.postback.query.action === 'getOrders') return true
   return false
 }
