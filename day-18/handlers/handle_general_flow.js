@@ -20,14 +20,14 @@ const toColumn = product => {
     defaultAction: {
       type: 'postback',
       label: '我想要買！',
-      text: '我想要買！',
+      displayText: '我想要買！',
       data: `flow=shopping&action=buy&productID=${product.id}`
     },
     actions: [
       {
         type: 'postback',
         label: '我想要買！',
-        text: '我想要買！',
+        displayText: '我想要買！',
         data: `flow=shopping&action=buy&productID=${product.id}`
       }
     ]
@@ -43,7 +43,7 @@ const toColumns = ({
     columns.push({
       thumbnailImageUrl: 'https://i.imgur.com/0O9cN53.jpg',
       imageBackgroundColor: '#ddc39d',
-      title: '想看更多嗎？', // product.id just for teaching
+      title: '想看更多嗎？',
       text: '還有更多好甜好吃的糖果唷(招手',
       defaultAction: {
         type: 'postback',

@@ -55,12 +55,12 @@ const handleWaitInputQuantityState = async context => {
         {
           type: 'postback',
           label: '沒錯！',
-          text: '沒錯！',
+          displayText: '沒錯！',
           data: `flow=shopping&action=confirm`
         }, {
           type: 'postback',
           label: '不對唷～',
-          text: '不對唷～',
+          displayText: '不對唷～',
           data: `flow=shopping&action=cancel`
         }
       ]
