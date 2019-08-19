@@ -65,6 +65,7 @@ const toColumns = ({
 }
 
 const handleGetProducts = async context => {
+  console.log('handle_general_flow, handleGetProducts')
   const { offset } = context.event.postback.query
   const result = await Product.readProducts({ offset })
   let carouselProducts = {
@@ -77,14 +78,14 @@ const handleGetProducts = async context => {
       columns: toColumns({ products: result.products, offset: result.offset })
     } }
   context.reply([carouselProducts])
-  console.log(`reply products list`)
-  console.log(`state: `, context.state)
+  console.log(`handle_general_flow, reply products list`)
+  console.log(`handle_general_flow, final state: `, context.state)
 }
 
 const isGetProducts = context => {
   const { event } = context
   if (event.postback.query.action && event.postback.query.action === 'getProducts') {
-    console.log(`handle_general_flow, isGetProducts`)
+    console.log(`handle_general_flow, isGetProducts, true`)
     return true
   }
   return false
@@ -93,7 +94,7 @@ const isGetProducts = context => {
 const isGetMemberInfo = context => {
   const { event } = context
   if (event.postback.query.action && event.postback.query.action === 'getMemberInfo') {
-    console.log(`handle_general_flow, isGetMemberInfo`)
+    console.log(`handle_general_flow, isGetMemberInfo, true`)
     return true
   }
   return false
@@ -102,7 +103,7 @@ const isGetMemberInfo = context => {
 const isGetOrders = context => {
   const { event } = context
   if (event.postback.query.action && event.postback.query.action === 'getOrders') {
-    console.log(`handle_general_flow, isGetOrders`)
+    console.log(`handle_general_flow, isGetOrders, true`)
     return true
   }
   return false
@@ -110,19 +111,19 @@ const isGetOrders = context => {
 
 const handleGetOrders = context => {
   context.replyText('You click getOrders')
-  console.log(`reply You click getOrders`)
-  console.log(`state: `, context.state)
+  console.log(`handle_general_flow, reply You click getOrders`)
+  console.log(`handle_general_flow, final state: `, context.state)
 }
 
 const handleGetMemberInfo = context => {
   context.replyText('You click getMemberInfo')
-  console.log(`reply You click getOrders`)
-  console.log(`state: `, context.state)
+  console.log(`handle_general_flow, reply You click getOrders`)
+  console.log(`handle_general_flow, final state: `, context.state)
 }
 
 module.exports = new LineHandler()
   .on(isGetOrders, handleGetOrders)
   .on(isGetMemberInfo, handleGetMemberInfo)
   .on(isGetProducts, handleGetProducts)
-  .onEvent(context => console.log('Uncaught event:', context.event.rawEvent))
+  .onEvent(context => console.log('handle_general_flow, uncaught event:', context.event.rawEvent))
   .build()
