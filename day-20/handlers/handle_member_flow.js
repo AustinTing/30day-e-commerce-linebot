@@ -1,6 +1,7 @@
 
 const { LineHandler } = require('bottender')
 const Member = require('../database/member.js')
+const handlePaymentFlow = require('./handle_payment_flow')
 
 const isNewMember = context => {
   if (!context.state.member) {
@@ -132,17 +133,15 @@ const isConfirm = context => {
 const handleConfirm = async context => {
   console.log('handle_member_flow, handleConfirm')
   context.state.flow = null
-  context.replyText('會員資訊已確認囉，接下來...')
   context.state.member.lineID = context.session.user.id
   // console.log(`member: ${JSON.stringify(context.state.member)}`)
-  // TODO: member checking
+  // TODO: Update member checking
   const newMember = await Member.createMember(context.state.member)
   if (newMember) {
     context.state.member = newMember
   }
-  console.log('handle_member_flow, reply member info confirm')
-  console.log('handle_member_flow, final state: ', context.state)
-  // TODO: Set the pay flow state
+  context.state.flow = 'payment_start'
+  return handlePaymentFlow(context)
 }
 
 const isTryAgain = context => {

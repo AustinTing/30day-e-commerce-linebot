@@ -1,9 +1,10 @@
 const _ = require('lodash')
 const { LineHandler } = require('bottender')
 const queryString = require('query-string')
-const handleGeneralFlow = require('./handle_general_flow.js')
-const handleShoppingFlow = require('./handle_shopping_flow.js')
+const handleGeneralFlow = require('./handle_general_flow')
+const handleShoppingFlow = require('./handle_shopping_flow')
 const handleMemberFlow = require('./handle_member_flow')
+const handlePaymentFlow = require('./handle_payment_flow')
 
 const init = context => {
   const { event } = context
@@ -76,12 +77,28 @@ const isMemberFlow = context => {
   return false
 }
 
+const isPaymentFlow = context => {
+  const { event } = context
+  if (_.startsWith(context.state.flow, 'payment')) {
+    console.log(`handler, isPaymentFlow, true`)
+    return true
+  }
+  if (event.isPostback) {
+    if (event.postback.query && event.postback.query.flow === 'payment') {
+      console.log(`handler, isPaymentFlow, true`)
+      return true
+    }
+  }
+  return false
+}
+
 module.exports = new LineHandler()
   .on(init, context => console.log(`How do you get here!?`))
   .on(isReset, handleReset)
   .on(isGeneralFlow, handleGeneralFlow)
   .on(isShoppingFlow, handleShoppingFlow)
   .on(isMemberFlow, handleMemberFlow)
+  .on(isPaymentFlow, handlePaymentFlow)
   .onEvent(context => {
     if (context.event.isText) {
       console.log('handler, final state: ', context.state)

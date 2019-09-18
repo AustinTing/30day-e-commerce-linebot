@@ -1,7 +1,8 @@
 const { LineHandler } = require('bottender')
 const _ = require('lodash')
-const Product = require('../database/product.js')
-const handleMemberFlow = require('./handle_member_flow.js')
+const Product = require('../database/product')
+const handleMemberFlow = require('./handle_member_flow')
+const handlePaymentFlow = require('./handle_payment_flow')
 
 const isBuy = context => {
   const { event } = context
@@ -101,12 +102,12 @@ const handleWaitConfirm = async context => {
   const { event } = context
   if (event.isPostback && event.postback.query && event.postback.query.action === 'confirm') {
     console.log(`handle_shopping_flow, user confirm order`)
-    await context.replyText('購買資訊已確認，接下來...')
+    // await context.replyText('購買資訊已確認，接下來...')
     if (!context.state.member) {
       return handleMemberFlow(context)
     }
-    console.log('handle_shopping_flow, final state: ', context.state)
-    return // TODO: handlePayingFlow
+    context.state.flow = 'payment_start'
+    return handlePaymentFlow(context)
   }
   if (event.isPostback && event.postback.query && event.postback.query.action === 'cancel') {
     console.log(`handle_shopping_flow, user cancel order`)
