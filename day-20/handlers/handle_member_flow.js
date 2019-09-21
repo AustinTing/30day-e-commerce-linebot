@@ -134,8 +134,6 @@ const handleConfirm = async context => {
   console.log('handle_member_flow, handleConfirm')
   context.state.flow = null
   context.state.member.lineID = context.session.user.id
-  // console.log(`member: ${JSON.stringify(context.state.member)}`)
-  // TODO: Update member checking
   const newMember = await Member.createMember(context.state.member)
   if (newMember) {
     context.state.member = newMember

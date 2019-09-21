@@ -51,7 +51,7 @@ const getPaymentUrl = async ({
   console.log(`getPaymentUrl fail, retult: `, result)
   return null
 }
-// TODO: 加入error handling 以及相關回覆
+
 const handleStart = async context => {
   console.log('handle_payment_flow, handleStart')
   const { productID: orderProductId, quantity } = context.state.order
@@ -59,10 +59,7 @@ const handleStart = async context => {
   if (!quantity) throw new Error('There is no quantity')
   const product = await Product.readProduct({ id: context.state.order.productID })
   if (!product) throw new Error(`There is no product with id: ${context.state.order.productID}`)
-  // console.log(`handle_payment_flow, product: `, product)
   const orderNo = Date.now()
-  // Add orderNo to context.state.order
-  // Check what prop inside the order
   console.log(`handle_payment_flow, context.state.order: `, context.state.order)
   const paymentUrl = await getPaymentUrl({ orderNo, product, quantity })
   if (!paymentUrl) {
@@ -104,6 +101,7 @@ const handleCancel = context => {
   console.log('handle_payment_flow, handleCancel')
   context.state.flow = null
   context.state.order = null
+  // TODO: 再推播一次商品列表
   context.replyText('好喔 T^T')
   console.log('handle_payment_flow, handleCancel, reply OK')
   console.log('handle_payment_flow, handleCancel, final state: ', context.state)
