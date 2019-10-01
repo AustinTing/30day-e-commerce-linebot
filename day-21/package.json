@@ -1,0 +1,18 @@
+{
+  "name": "e-commerce-linebot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Austin Ting",
+  "license": "MIT",
+  "dependencies": {
+    "bottender": "^0.15.7",
+    "dotenv": "^6.0.0",
+    "query-string": "^6.2.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2"
+  }
+}
